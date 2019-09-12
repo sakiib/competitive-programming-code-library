@@ -76,11 +76,6 @@ struct linear_recurrence_berlekamp_massey {
         }
 } rec;
 
-int main() {
-        
-}
-
-
 
 
 
