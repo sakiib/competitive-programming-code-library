@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/**
 struct DISJOINT_SET_UNION {
         static const int MAXN = 1e5 + 5;
         vector <int> V[ MAXN ];
@@ -34,9 +33,7 @@ struct DISJOINT_SET_UNION {
                 return root( x ) == root( y );
         }
 } dsu;
-*/
 
-/**
 struct DISJOINT_SET_UNION {
         static const int MAXN = 1e5 + 5;
         int par[ MAXN ] , sz[ MAXN ] , compo;
@@ -58,9 +55,7 @@ struct DISJOINT_SET_UNION {
                 else if( sz[v] > sz[u] ) par[u] = v , sz[v] += sz[u];
         }
 } dsu;
-*/
 
-/**
 const int N = 1e5 + 5;
 int p[ N ];
 
@@ -76,13 +71,7 @@ inline void unite( int x , int y ) {
         if( rand()%2 ) swap( u , v );
         p[u] = v;
 }
-*/
 
-
-int main( int argc , char const *argv[] ) {
-
-        return 0;
-}
 
 
 
