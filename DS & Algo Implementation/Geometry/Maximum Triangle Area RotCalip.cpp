@@ -22,7 +22,7 @@ struct point {
         bool operator < ( const point &p ) { return x == p.x ? y < p.y : x < p.x; }
         point operator + ( const point &p ) const { point pt( x + p.x, y + p.y ); return pt; }
         point operator - ( const point &p ) const { point pt( x - p.x, y - p.y ); return pt; }
-        LL dist( point q ){ return ( ( x-q.x )*(x-q.x) + ( y-q.y )*(y-q.y) ); }
+        LL cross( const point p ) { return ( x * p.y - y * p.x ); }
 };
 
 bool comp( point &p1, point &p2 ) { return p1.x != p2.x ? p1.x < p2.x : p1.y < p2.y; }
@@ -35,7 +35,7 @@ bool ccw( point &a, point &b, point &c ) {
 }
 vector <point> convex_hull( vector<point> &v ) {
         if( v.size() == 1 ) return v;
-        sort( v.begin(), v.end() );
+        sort( v.begin( ), v.end( ) );
         point p1 = v[0], p2 = v.back();
         vector <point> up , down;
         up.push_back( p1 );
@@ -59,48 +59,43 @@ vector <point> convex_hull( vector<point> &v ) {
 int n;
 vector <point> V;
 
-/// Diameter using rotating callipers method.
+/// Maximum Triangle area using rotating callipers method.
 
-LL area( point a , point b , point c ) {
+double area( point a , point b , point c ) {
         return abs( (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x) );
 }
-LL Diameter( vector <point> h ) {
+double MAX_Area( vector <point> h ) {
         int m = h.size();
-        if ( m == 1 ) return 0;
-        if ( m == 2 ) return h[0].dist(h[1]);
-        int k = 1;
-        while( area(h[m - 1], h[0], h[(k + 1) % m]) > area(h[m - 1], h[0], h[k]) ) ++k;
-        LL res = 0;
-        for (int i = 0, j = k; i <= k && j < m; i++) {
-                res = max( res, h[i].dist( h[j] ) );
-                while (j < m && area(h[i], h[(i + 1) % m], h[(j + 1) % m]) > area(h[i], h[(i + 1) % m], h[j])) {
-                        res = max( res, h[i].dist( h[(j + 1) % m] ) );
-                        ++j;
+        if( m < 3 ) return 0.0;
+        double mx = 0.0;
+        for( int i = 0; i < m; i++ ) {
+                int j = ( i + 1 )%m , k = ( i + 2 )%m;
+                while( i != j && j != k ) {
+                        while( k != i && area( h[i] , h[j] , h[k+1] ) > area( h[i], h[j] , h[k] ) )
+                        k = ( k + 1 )%m;
+                        mx = max( mx , area( h[i] , h[j] , h[k] )/2.0 );
+                        j = ( j + 1 )%m;
                 }
         }
-        return res;
+        return mx;
 }
 int main( int argc , char const *argv[] ) {
         ios_base::sync_with_stdio( false ); cin.tie( NULL );
-        int t;
-        cin >> t;
-        while( t-- ) {
-                cin >> n;
-                V.clear();
+        while( cin >> n ) {
+                if( n == -1 ) break;
+                V.clear( );
                 for( int i = 1; i <= n; i++ ) {
-                        LL x , y , l;
-                        cin >> x >> y >> l;
+                        LL x , y;
+                        cin >> x >> y;
                         V.push_back( point( x , y ) );
-                        V.push_back( point( x+l , y ) );
-                        V.push_back( point( x , y+l ) );
-                        V.push_back( point( x+l , y+l ) );
                 }
                 vector <point> c = convex_hull( V );
-                LL dia = Diameter( c );
-                cout << dia << endl; /// square dist
+                double area = MAX_Area( c );
+                cout << setprecision( 2 ) << fixed << area << endl;
         }
         return 0;
 }
+
 
 
 
