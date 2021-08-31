@@ -1,6 +1,4 @@
-#include <bits/stdc++.h>
-
-using namespace std;
+// Big-integer implementation in C++
 
 const int base = 1000000000;
 const int base_digits = 9;
@@ -350,23 +348,4 @@ struct BigInt {
     return res;
   }
 };
-
-#define Fast_IO ios_base::sync_with_stdio(0); cin.tie(0);
-typedef long long LL;
-const LL MOD = 1e9 + 7;
-
-int main( int argc , char const *argv[] ) {
-
-        return 0;
-}
-
-
-
-
-
-
-
-
-
-
 
