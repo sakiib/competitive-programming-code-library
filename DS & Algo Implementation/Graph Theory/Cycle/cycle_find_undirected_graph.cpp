@@ -102,3 +102,19 @@ int main(int argc, char
   }
   return 0;
 }
+
+---
+call: hasCycle(i, -1, visited, graph)
+  
+bool hasCycle(int node, int parent, vector <bool> &visited,vector <vector <int> > &graph) {
+    visited[node] = true;
+    for (auto nxt: graph[node]) {
+        if (!visited[nxt]) {
+            if (hasCycle(nxt, node, visited, graph)) return true;
+        } else if (nxt != parent) {
+            return true;
+        }
+    }
+
+    return false;
+}
